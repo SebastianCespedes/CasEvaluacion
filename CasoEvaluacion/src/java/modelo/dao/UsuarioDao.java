@@ -5,6 +5,7 @@
  */
 package modelo.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +33,7 @@ public class UsuarioDao {
 
         try {
             pstm = cnn.prepareStatement("select count(p.idPrestamo) as multas from prestamos as p join multas as m on p.idPrestamo = m.idPrestamo "
-                    + "join usuarios as u on u.idUsuario = p.idUsuario where m.estadoMultas = 1;");
+                    + "join usuarios as u on u.idUsuario = p.idUsuario where m.estadoMultas = 1 and u.idUsuario = ?;");
             rs = pstm.executeQuery();
             while (rs.next()) {
                 registro = rs.getInt("multas");
@@ -62,4 +63,17 @@ public class UsuarioDao {
         }
         return usuario;
     }
+    public int validarUsuario(int idUsuario){
+            String mensaje="";
+            CallableStatement cstm;
+            
+            try{
+                cstm = cnn.prepareCall("{call sp_validarUsuario(?) }");
+                cstm.setInt(1, idUsuario);
+                cstm.executeQuery();
+            } catch (SQLException ex) {
+            mensaje = "Error: " + ex.getMessage();
+        }
+            return 0;
+        }
 }

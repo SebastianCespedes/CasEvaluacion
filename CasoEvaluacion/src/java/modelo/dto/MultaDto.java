@@ -11,25 +11,25 @@ package modelo.dto;
  */
 public class MultaDto {
 
-    private int idMultas = 0;
+    private int idMulta = 0;
     private int idPrestamo = 0;
     private String fechaMulta = "";
-    private String fechapago = "";
+    private String fechaPago = "";
     private int valorPagar = 0;
     private boolean estadoMultas = true;
 
     /**
-     * @return the idMultas
+     * @return the idMulta
      */
-    public int getIdMultas() {
-        return idMultas;
+    public int getIdMulta() {
+        return idMulta;
     }
 
     /**
-     * @param idMultas the idMultas to set
+     * @param idMulta the idMulta to set
      */
-    public void setIdMultas(int idMultas) {
-        this.idMultas = idMultas;
+    public void setIdMulta(int idMulta) {
+        this.idMulta = idMulta;
     }
 
     /**
@@ -61,17 +61,17 @@ public class MultaDto {
     }
 
     /**
-     * @return the fechapago
+     * @return the fechaPago
      */
-    public String getFechapago() {
-        return fechapago;
+    public String getFechaPago() {
+        return fechaPago;
     }
 
     /**
-     * @param fechapago the fechapago to set
+     * @param fechaPago the fechaPago to set
      */
-    public void setFechapago(String fechapago) {
-        this.fechapago = fechapago;
+    public void setFechaPago(String fechaPago) {
+        this.fechaPago = fechaPago;
     }
 
     /**
@@ -103,7 +103,7 @@ public class MultaDto {
     }
     @Override
     public String toString() {
-        return "multasdto{" + "idMultas=" + getIdMultas() + ", idPrestamo=" + getIdPrestamo() + ", fechaMulta=" + getFechaMulta() + ", fechapago=" + getFechapago() + ", valorPagar=" + getValorPagar() + ", estadoMultas=" + isEstadoMultas() + '}';
+        return "multasdto{" + "idMulta=" + getIdMulta() + ", idPrestamo=" + getIdPrestamo() + ", fechaMulta=" + getFechaMulta() + ", fechapago=" + getFechaPago() + ", valorPagar=" + getValorPagar() + ", estadoMultas=" + isEstadoMultas() + '}';
     }
 
 }

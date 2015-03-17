@@ -8,6 +8,10 @@
         <servlet-name>ControladorPrestamo</servlet-name>
         <servlet-class>controladores.ControladorPrestamo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControladorMulta</servlet-name>
+        <servlet-class>controladores.ControladorMulta</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControladorUsuario</servlet-name>
         <url-pattern>/ControladorUsuario</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ControladorPrestamo</servlet-name>
         <url-pattern>/ControladorPrestamo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorMulta</servlet-name>
+        <url-pattern>/ControladorMulta</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

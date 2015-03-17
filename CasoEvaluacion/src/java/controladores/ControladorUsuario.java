@@ -41,7 +41,7 @@ public class ControladorUsuario extends HttpServlet {
             uDto = uDao.obtenerUsuario(Integer.parseInt(request.getParameter("documento")));
             HttpSession sesion = request.getSession(true);
             sesion.setAttribute("logueado", uDto);
-            response.sendRedirect("prestamo.jsp");
+            response.sendRedirect("acciones.jsp");
         }
     }
 

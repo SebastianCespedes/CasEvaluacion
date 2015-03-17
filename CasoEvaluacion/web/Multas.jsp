@@ -20,7 +20,7 @@
        
         <%
             HttpSession sesion = request.getSession(false);
-            if (sesion.getAttribute("cliente") != null) {
+            if (sesion.getAttribute("logueado") != null) {
 
         %>
       
@@ -36,7 +36,7 @@
 
         </form>
 
-        <%            ArrayList<MultaDto> multas;
+        <%         ArrayList<MultaDto> multas;
 
             multas = (ArrayList<MultaDto>) mdao.listarTodos();
         %>

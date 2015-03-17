@@ -23,7 +23,7 @@ public class Conexion {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //  trae la libreria para poder realizar la conexion.
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/Evaluacion", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/evaluacion", "root", "");
             // la conexion tomara la direccion donde se encuentra la base de datos, la base de datos
             // el usuario que usa la base de datos y el password de la misma
             // en pocas palabras toma la direccion de la base de datos.

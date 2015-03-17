@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import modelo.dto.PrestamoDto;
 import utilidades.Conexion;
 
@@ -26,6 +28,34 @@ public class PrestamoDao {
 
     public PrestamoDao() {
         cnn = Conexion.getInstance();
+    }
+
+    public List obtenerPrestamos(long idUsuario) {
+
+        ArrayList<PrestamoDto> prestamos = new ArrayList();
+        try {
+            pstm = cnn.prepareStatement("SELECT idPrestamo, idUsuario,idLibro, fechaSolicitud,fechaEntrega,estadoPrestamo FROM prestamos where idUsuario = ?");
+            pstm.setLong(1, idUsuario);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                PrestamoDto prestamo = new PrestamoDto();
+                prestamo.setIdPrestamo(rs.getInt("idPrestamo"));
+                prestamo.setIdUsuario(rs.getInt("idUsuario"));
+                prestamo.setIdLibro(rs.getInt("idLibro"));
+                prestamo.setFechaLibro(rs.getString("fechaSolicitud"));
+                prestamo.setFechaEntrega(rs.getString("fechaEntrega"));
+                prestamo.setEstadoprestamo(rs.getBoolean("estadoPrestamo"));
+                prestamos.add(prestamo);
+            }
+        } catch (SQLException ex) {
+
+        }
+        return prestamos;
+    }
+    
+    public int devolverLibro(int idPrestamo){
+        
+        return 1;
     }
 
     public String registrarPrestamo(PrestamoDto pDto) {

@@ -63,5 +63,7 @@
                 response.sendRedirect("index.jsp");
             }
         %>
+        
+        <a href="Multas.jsp">Multas</a>
     </body>
 </html>

@@ -54,12 +54,12 @@ public class LibroDao {
         return mensaje;
     }
 
-    public int validarEstadoLibro(int libro) {
+    public int validarCantidadLibros(int idUsuario) {
         int salida = 0;
         CallableStatement cstm;
         try {
-            cstm = cnn.prepareCall("{call sp_validarEstadoLibro(?, ?) }");
-            cstm.setInt(1, libro);
+            cstm = cnn.prepareCall("{call sp_validarLibrosUsuario(?, ?) }");
+            cstm.setInt(1, idUsuario);
             cstm.registerOutParameter(2, Types.INTEGER);
             cstm.execute();
             salida = cstm.getInt(2);            

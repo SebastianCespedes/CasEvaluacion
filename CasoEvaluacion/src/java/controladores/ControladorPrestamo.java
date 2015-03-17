@@ -36,25 +36,44 @@ public class ControladorPrestamo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         if (request.getParameter("id") != null) {
             HttpSession sesion = request.getSession(false);
             UsuarioDto usuario = (UsuarioDto) sesion.getAttribute("logueado");
             PrestamoDao pDao = new PrestamoDao();
             LibroDao lDao = new LibroDao();
             LibroDto lDto = lDao.obtenerLibro(Integer.parseInt(request.getParameter("id")));
-            int estadoLibro = lDao.validarEstadoLibro(lDto.getEstado());
+            int estadoLibro = lDao.validarEstado(lDto.getEstado());
             int multas = pDao.validarMultas(usuario.getIdUsuario());
+            int prestamos = lDao.validarCantidadLibros(usuario.getIdUsuario());
 
-            if (estadoLibro <= 1 && multas == 0) {
-                PrestamoDto pDto = new PrestamoDto();
-                pDto.setIdUsuario(usuario.getIdUsuario());
-                pDto.setIdLibro(lDto.getIdLibro());
-                String mensaje = pDao.registrarPrestamo(pDto);
-                response.sendRedirect("prestamo.jsp?exito=" + estadoLibro);
+//            if (estadoLibro == 1 && multas == 0 && prestamos == 1) {
+//                PrestamoDto pDto = new PrestamoDto();
+//                pDto.setIdUsuario(usuario.getIdUsuario());
+//                pDto.setIdLibro(lDto.getIdLibro());
+//                String mensaje = pDao.registrarPrestamo(pDto);
+//                response.sendRedirect("prestamo.jsp?exito=" + mensaje);
+//
+//            } else {
+//                response.sendRedirect("prestamo.jsp?fallido=No se logro realizar el prestamo");
+//            }
+            if (estadoLibro == 1) {
+                if (multas == 0) {
+                    if (prestamos == 1) {
+                        PrestamoDto pDto = new PrestamoDto();
+                        pDto.setIdUsuario(usuario.getIdUsuario());
+                        pDto.setIdLibro(lDto.getIdLibro());
+                        String mensaje = pDao.registrarPrestamo(pDto);
+                        response.sendRedirect("prestamo.jsp?exito=" + mensaje);
+                    } else {
+                        response.sendRedirect("prestamo.jsp?fallido=Ya tiene dos prestamos activos");
+                    }
+                } else {
+                    response.sendRedirect("prestamo.jsp?fallido=Usted tiene multas");
+                }
 
             } else {
-                response.sendRedirect("prestamo.jsp?fallido=" + estadoLibro);
+                response.sendRedirect("prestamo.jsp?fallido=El libro no esta disponible");
             }
 
         }

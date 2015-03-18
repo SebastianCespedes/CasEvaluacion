@@ -21,17 +21,17 @@ import utilidades.Conexion;
  * @author kmilogil
  */
 public class MultaDao {
-
+    
     private Connection cnn = null;
     private ResultSet rs = null;
     private PreparedStatement pstm = null;
     private String mensajes = "";
     private int registros = 0;
-
+    
     public MultaDao() {
         cnn = Conexion.getInstance();
     }
-
+    
     public MultaDto listarUno(int prestamo) {
         MultaDto mudto = new MultaDto();
         try {
@@ -55,12 +55,14 @@ public class MultaDao {
         }
         return mudto;
     }
-
-    public List<MultaDto> listarTodos() {
+    
+    public List<MultaDto> listarTodos(int idUsuario) {
         ArrayList<MultaDto> multas = new ArrayList();
         try {
-            pstm = cnn.prepareStatement("SELECT `Multas`.`idMulta`, `Multas`.`idPrestamo`, `Multas`.`fechaMulta`, `Multas`.`fechaPago`, `Multas`.`valorPagar`, `Multas`.`estadoMultas`\n"
-                    + "FROM `Evaluacion`.`Multas`;");
+            pstm = cnn.prepareStatement("SELECT idMulta, m.idPrestamo,fechaMulta,fechaPago,valorPagar, estadoMultas "
+                    + "FROM multas as m join prestamos as p on p.idPrestamo = m.idPrestamo "
+                    + "join usuarios as u on u.idUsuario = p.idUsuario where u.idUsuario = ?;");
+            pstm.setInt(1, idUsuario);
             rs = pstm.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
@@ -79,9 +81,9 @@ public class MultaDao {
         }
         return multas;
     }
-
+    
     public String pagarMulta(int prestamo) {
-
+        
         CallableStatement cstm;
         try {
             cstm = cnn.prepareCall("{call sp_pagarMulta(?, ?) }");
@@ -94,11 +96,11 @@ public class MultaDao {
             } else {
                 mensajes = "Debe pagar: " + total;
             }
-
+            
         } catch (SQLException ex) {
             mensajes = "Error: " + ex.getMessage();
         }
-
+        
         return mensajes;
     }
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo.dto;
 
 /**
@@ -11,12 +10,18 @@ package modelo.dto;
  * @author LENOVO
  */
 public class PrestamoDto {
-    private int idPrestamo=0;
-    private int idUsuario=0;
-    private int idLibro=0;
-    private String fechaLibro="";
-    private String fechaEntrega="";
-    private boolean estadoPrestamo=true;
+
+    private int idPrestamo = 0;
+    private int idUsuario = 0;
+    private int idLibro = 0;
+    private String fechaSolicitud = "";
+    private String fechaEntrega = "";
+    private boolean estadoPrestamo = true;
+
+    @Override
+    public String toString() {
+        return "PrestamoDto{" + "idPrestamo=" + idPrestamo + ", idUsuario=" + idUsuario + ", idLibro=" + idLibro + ", fechaSolicitud=" + fechaSolicitud + ", fechaEntrega=" + fechaEntrega + ", estadoPrestamo=" + estadoPrestamo + '}';
+    }
 
     /**
      * @return the idPrestamo
@@ -61,17 +66,17 @@ public class PrestamoDto {
     }
 
     /**
-     * @return the fechaLibro
+     * @return the fechaSolicitud
      */
-    public String getFechaLibro() {
-        return fechaLibro;
+    public String getFechaSolicitud() {
+        return fechaSolicitud;
     }
 
     /**
-     * @param fechaLibro the fechaLibro to set
+     * @param fechaSolicitud the fechaSolicitud to set
      */
-    public void setFechaLibro(String fechaLibro) {
-        this.fechaLibro = fechaLibro;
+    public void setFechaSolicitud(String fechaSolicitud) {
+        this.fechaSolicitud = fechaSolicitud;
     }
 
     /**
@@ -91,20 +96,15 @@ public class PrestamoDto {
     /**
      * @return the estadoPrestamo
      */
-    public boolean isEstadoprestamo() {
+    public boolean isEstadoPrestamo() {
         return estadoPrestamo;
     }
 
     /**
-     * @param estadoprestamo the estadoPrestamo to set
+     * @param estadoPrestamo the estadoPrestamo to set
      */
-    public void setEstadoprestamo(boolean estadoprestamo) {
-        this.estadoPrestamo = estadoprestamo;
+    public void setEstadoPrestamo(boolean estadoPrestamo) {
+        this.estadoPrestamo = estadoPrestamo;
     }
 
-    @Override
-    public String toString() {
-        return "prestamodto{" + "idPrestamo=" + idPrestamo + ", idUsuario=" + idUsuario + ", idLibro=" + idLibro + ", fechaLibro=" + fechaLibro + ", fechaEntrega=" + fechaEntrega + ", estadoprestamo=" + estadoPrestamo + '}';
-    }
-    
 }

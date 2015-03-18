@@ -5,10 +5,12 @@
  */
 package modelo.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.dto.PrestamoDto;
@@ -42,9 +44,9 @@ public class PrestamoDao {
                 prestamo.setIdPrestamo(rs.getInt("idPrestamo"));
                 prestamo.setIdUsuario(rs.getInt("idUsuario"));
                 prestamo.setIdLibro(rs.getInt("idLibro"));
-                prestamo.setFechaLibro(rs.getString("fechaSolicitud"));
+                prestamo.setFechaSolicitud(rs.getString("fechaSolicitud"));
                 prestamo.setFechaEntrega(rs.getString("fechaEntrega"));
-                prestamo.setEstadoprestamo(rs.getBoolean("estadoPrestamo"));
+                prestamo.setEstadoPrestamo(rs.getBoolean("estadoPrestamo"));
                 prestamos.add(prestamo);
             }
         } catch (SQLException ex) {
@@ -52,29 +54,62 @@ public class PrestamoDao {
         }
         return prestamos;
     }
-    
-    public int devolverLibro(int idPrestamo){
-        
-        return 1;
-    }
 
-    public String registrarPrestamo(PrestamoDto pDto) {
-
+    public PrestamoDto obtenerPrestamo(long idPrestamo) {
+        PrestamoDto prestamo = new PrestamoDto();
         try {
-            pstm = cnn.prepareStatement("insert into prestamos values (null, ?, ?, now(), date_add(now(), interval 3 day), 1);");
-            pstm.setInt(1, pDto.getIdUsuario());
-            pstm.setInt(2, pDto.getIdLibro());
-            registro = pstm.executeUpdate();
-            if (registro != 0) {
-                mensaje = "Prestamo realizado!!";
+            pstm = cnn.prepareStatement("SELECT idPrestamo, idUsuario,idLibro, fechaSolicitud,fechaEntrega,estadoPrestamo FROM prestamos where idPrestamo = ?");
+            pstm.setLong(1, idPrestamo);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
 
-            } else {
-                mensaje = "Ocurrio algo!!!";
+                prestamo.setIdPrestamo(rs.getInt("idPrestamo"));
+                prestamo.setIdUsuario(rs.getInt("idUsuario"));
+                prestamo.setIdLibro(rs.getInt("idLibro"));
+                prestamo.setFechaSolicitud(rs.getString("fechaSolicitud"));
+                prestamo.setFechaEntrega(rs.getString("fechaEntrega"));
+                prestamo.setEstadoPrestamo(rs.getBoolean("estadoPrestamo"));
             }
         } catch (SQLException ex) {
-            mensaje = ex.getMessage();
+
         }
-        return mensaje;
+        return prestamo;
+    }
+
+    public int devolverLibro(int idPrestamo) {
+
+        int salida = 0;
+        CallableStatement cstm;
+        try {
+            cstm = cnn.prepareCall("{call sp_cerrarPrestamo(?,?) }");
+            cstm.setInt(1, idPrestamo);
+            cstm.registerOutParameter(2, Types.INTEGER);
+            cstm.execute();
+            salida = cstm.getInt(2);
+
+        } catch (SQLException ex) {
+            mensaje = "Error: " + ex.getMessage();
+        }
+        return salida;
+    }
+
+    public int registrarPrestamo(PrestamoDto pdto) {
+
+        int salida = 0;
+        CallableStatement cstm;
+        try {
+            cstm = cnn.prepareCall("{call sp_crearPrestamo(?,?,?,?) }");
+            cstm.setInt(1, pdto.getIdUsuario());
+            cstm.setInt(2, pdto.getIdLibro());
+            cstm.setString(3, pdto.getFechaSolicitud());
+            cstm.registerOutParameter(4, Types.INTEGER);
+            cstm.execute();
+            salida = cstm.getInt(4);
+
+        } catch (SQLException ex) {
+            mensaje = "Error: " + ex.getMessage();
+        }
+        return salida;
     }
 
     public int validarMultas(int idUsuario) {

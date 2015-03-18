@@ -6,6 +6,8 @@
 package utilidades;
 
 import java.sql.Connection;
+import modelo.dao.LibroDao;
+import modelo.dto.LibroDto;
 
 /**
  *
@@ -22,6 +24,9 @@ public class Verificar {
         if (cnn != null) {
             System.out.println("Conectado");
         }
+        LibroDao lDao = new LibroDao();
+        LibroDto lDto = lDao.obtenerLibro(7);
+        System.out.println(lDto);
     }
 
 }

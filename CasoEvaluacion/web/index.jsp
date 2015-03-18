@@ -10,12 +10,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     </head>
     <body>
-        <form action="ControladorUsuario" method="post">
-            <label>Ingrese su documento</label>
-            <input type="text" name="documento">
-            <input type="submit" name="ingresar" value="Ingresar">
-        </form>
+        <div class="row text-center col-lg-2 col-lg-offset-5"> 
+            <br>
+            <form action="ControladorUsuario" method="post">
+                <label>Ingrese su documento</label>
+                <input type="text" name="documento" class="form-control" required><br>
+                <input type="submit" name="ingresar" value="Ingresar" class="btn-success form-control">
+            </form>
+        </div>
     </body>
 </html>

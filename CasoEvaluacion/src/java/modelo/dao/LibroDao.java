@@ -32,6 +32,23 @@ public class LibroDao {
         cnn = Conexion.getInstance();
     }
 
+    public String modificarEstado(int estado, int idLibro) {
+        try {
+            pstm = cnn.prepareStatement("update libros set estadoLibro = ? where idLibro = ?;");
+            pstm.setInt(1, estado);
+            pstm.setInt(2, idLibro);
+            registro = pstm.executeUpdate();
+            if (registro != 0) {
+                mensaje = "Hecho!!";
+            } else {
+                mensaje = "Fail!!";
+            }
+        } catch (SQLException ex) {
+
+        }
+        return mensaje;
+    }
+
     public String ingresarLibro() {
         LibroDto libro = new LibroDto();
         try {
@@ -62,7 +79,7 @@ public class LibroDao {
             cstm.setInt(1, idUsuario);
             cstm.registerOutParameter(2, Types.INTEGER);
             cstm.execute();
-            salida = cstm.getInt(2);            
+            salida = cstm.getInt(2);
 
         } catch (SQLException ex) {
             mensaje = "Error: " + ex.getMessage();
@@ -109,18 +126,35 @@ public class LibroDao {
         }
         return libro;
     }
-    
-    public int validarEstado(int libro){
-        try{
+
+    public int validarEstado(int libro) {
+        try {
             pstm = cnn.prepareStatement("select estadoLibro from libros where idLibro = ?;");
             pstm.setInt(1, libro);
             rs = pstm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 registro = rs.getInt("estadoLibro");
             }
-        }catch(SQLException ex){
-            
+        } catch (SQLException ex) {
+
         }
-      return registro;   
+        return registro;
+    }
+
+    public int validarEstadoLibro(int idLibro) {
+        int salida = 0;
+        CallableStatement cstm;
+        try {
+            cstm = cnn.prepareCall("{call sp_validarEstadoLibro(?, ?, ?) }");
+            cstm.setInt(1, idLibro);
+            cstm.registerOutParameter(2, Types.INTEGER);
+            cstm.registerOutParameter(3, Types.INTEGER);
+            cstm.execute();
+            salida = cstm.getInt(2);
+
+        } catch (SQLException ex) {
+            mensaje = "Error: " + ex.getMessage();
+        }
+        return salida;
     }
 }

@@ -14,6 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     </head>
     <body>
         <%
@@ -24,10 +25,11 @@
                 ArrayList<LibroDto> libros = (ArrayList<LibroDto>) lDao.obtenerLibros();
 
         %>
-        <a href="prestamo.jsp">Realizar prestamo</a>
-        <a href="devolucion.jsp">Devolver libro</a>
-        <a href="Multas.jsp">Multas</a>
-
+        <div class="row text-center col-lg-2 col-lg-offset-5"><br>
+            <a href="prestamo.jsp" class="btn-success form-control">Realizar prestamo</a><br>
+            <a href="devolucion.jsp " class="btn-success form-control">Devolver libro</a><br>
+            <a href="Multas.jsp " class="btn-success form-control">Multas</a><br>
+        </div>
         <%            }
         %>
     </body>

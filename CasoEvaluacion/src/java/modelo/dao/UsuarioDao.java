@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import modelo.dto.UsuarioDto;
 import utilidades.Conexion;
 
@@ -43,14 +44,14 @@ public class UsuarioDao {
         }
         return registro;
     }
-    
-    public UsuarioDto obtenerUsuario(int cedula){
+
+    public UsuarioDto obtenerUsuario(int cedula) {
         UsuarioDto usuario = new UsuarioDto();
-        try{
+        try {
             pstm = cnn.prepareStatement("SELECT idUsuario, nombres, apellidos, email, userName, pass FROM usuarios WHERE idUsuario = ?");
             pstm.setInt(1, cedula);
             rs = pstm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 usuario.setIdUsuario(rs.getInt("idUsuario"));
                 usuario.setNombres(rs.getString("nombres"));
                 usuario.setApellidos(rs.getString("apellidos"));
@@ -58,22 +59,26 @@ public class UsuarioDao {
                 usuario.setUserName(rs.getString("userName"));
                 usuario.setPassword(rs.getString("pass"));
             }
-        }catch (SQLException ex) {
-            
+        } catch (SQLException ex) {
+
         }
         return usuario;
     }
-    public int validarUsuario(int idUsuario){
-            String mensaje="";
-            CallableStatement cstm;
-            
-            try{
-                cstm = cnn.prepareCall("{call sp_validarUsuario(?) }");
-                cstm.setInt(1, idUsuario);
-                cstm.executeQuery();
-            } catch (SQLException ex) {
+
+    public int validarUsuario(int idUsuario) {
+        int salida = 0;
+        CallableStatement cstm;
+
+        try {
+            cstm = cnn.prepareCall("{call sp_validarUsuario(?,?) }");
+            cstm.setInt(1, idUsuario);
+            cstm.registerOutParameter(2, Types.INTEGER);
+            salida = cstm.getInt(2);
+            cstm.executeQuery();
+        } catch (SQLException ex) {
             mensaje = "Error: " + ex.getMessage();
         }
-            return 0;
-        }
+        return salida;
+    }
+
 }

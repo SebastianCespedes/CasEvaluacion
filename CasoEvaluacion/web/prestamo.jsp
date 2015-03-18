@@ -5,6 +5,7 @@
 --%>
 
 
+<%@page import="modelo.dao.UsuarioDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="modelo.dto.LibroDto"%>
 <%@page import="modelo.dao.LibroDao"%>
@@ -24,8 +25,10 @@
                 UsuarioDto uDto = (UsuarioDto) sesion.getAttribute("logueado");
                 LibroDao lDao = new LibroDao();
                 ArrayList<LibroDto> libros = (ArrayList<LibroDto>) lDao.obtenerLibros();
-
+                           
         %>
+       
+        
         <div class="row col-md-10 col-lg-offset-1"><br><br>
             <table border="1" class="table table-bordered table-striped table-hover">
                 <h1>Libros del sistema</h1>

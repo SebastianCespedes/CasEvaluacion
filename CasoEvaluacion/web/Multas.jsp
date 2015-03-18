@@ -19,7 +19,6 @@
     </head>
     <body>
 
-
         <%
             HttpSession sesion = request.getSession(false);
             if (sesion.getAttribute("logueado") != null) {

@@ -58,7 +58,12 @@
 
                 </tr>
                 <%                for (MultaDto mdto : multas) {
-
+                        String estado = "";
+                        if (mdto.isEstadoMultas() == true) {
+                            estado = "Por cancelar";
+                        } else {
+                            estado = "Cancelado";
+                        }
                 %>
 
                 <tr>
@@ -67,7 +72,7 @@
                     <td><%=mdto.getFechaMulta()%></td>
                     <td><%=mdto.getFechaPago()%></td>
                     <td><%=mdto.getValorPagar()%></td>
-                    <td><%=mdto.isEstadoMultas()%></td>
+                    <td><%=estado%></td>
 
                 </tr>
                 <%
@@ -86,7 +91,7 @@
 
         %>
         <div class="row text-center col-lg-2 col-lg-offset-5"><%=request.getParameter("msg")%></div>
-        
+
         <%    }
             } else {
                 response.sendRedirect("index.jsp");

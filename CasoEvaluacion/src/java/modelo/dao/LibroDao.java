@@ -75,7 +75,7 @@ public class LibroDao {
         int salida = 0;
         CallableStatement cstm;
         try {
-            cstm = cnn.prepareCall("{call sp_validarLibrosUsuario(?, ?) }");
+            cstm = cnn.prepareCall("{call sp_validarPrestamoUsuario(?, ?) }");
             cstm.setInt(1, idUsuario);
             cstm.registerOutParameter(2, Types.INTEGER);
             cstm.execute();

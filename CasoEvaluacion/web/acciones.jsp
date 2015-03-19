@@ -4,6 +4,7 @@
     Author     : Sena
 --%>
 
+<%@page import="modelo.dao.UsuarioDao"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="modelo.dto.LibroDto"%>
 <%@page import="modelo.dao.LibroDao"%>
@@ -25,12 +26,20 @@
                 ArrayList<LibroDto> libros = (ArrayList<LibroDto>) lDao.obtenerLibros();
 
         %>
-        <div class="row text-center col-lg-2 col-lg-offset-5"><br>
-            <a href="prestamo.jsp" class="btn-success form-control">Realizar prestamo</a><br>
-            <a href="devolucion.jsp " class="btn-success form-control">Devolver libro</a><br>
-            <a href="Multas.jsp " class="btn-success form-control">Multas</a><br>
+        <div class="row text-center col-lg-2 col-lg-offset-5">
+            <%                UsuarioDao uDao = new UsuarioDao();
+                int multas = uDao.validarMultas();
+                if (multas <= 2) {
+                    out.print("Usted tiene multas pendientes");
+                }
+            %>
         </div>
-        <%            }
-        %>
+            <div class="row text-center col-lg-2 col-lg-offset-5"><br>
+                <a href="prestamo.jsp" class="btn-success form-control">Realizar prestamo</a><br>
+                <a href="devolucion.jsp " class="btn-success form-control">Devolver libro</a><br>
+                <a href="Multas.jsp " class="btn-success form-control">Multas</a><br>
+            </div>
+            <%            }
+            %>
     </body>
 </html>

@@ -4,6 +4,7 @@
     Author     : Sena
 --%>
 
+<%@page import="modelo.dao.UsuarioDao"%>
 <%@page import="modelo.dto.PrestamoDto"%>
 <%@page import="modelo.dao.PrestamoDao"%>
 <%@page import="java.util.ArrayList"%>
@@ -26,7 +27,14 @@
 
 
         %>
-
+        <div class="row text-center col-lg-2 col-lg-offset-5">
+            <%                UsuarioDao uDao = new UsuarioDao();
+                int multas = uDao.validarMultas();
+                if (multas <= 2) {
+                    out.print("Usted tiene multas pendientes");
+                }
+            %> 
+        </div>
 
         <div class="row col-md-10 col-lg-offset-1"><br>
             <table border="1" class="table table-bordered table-hover table-hover table-striped">

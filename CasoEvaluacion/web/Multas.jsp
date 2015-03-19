@@ -4,6 +4,7 @@
     Author     : kmilogil
 --%>
 
+<%@page import="modelo.dao.UsuarioDao"%>
 <%@page import="modelo.dto.UsuarioDto"%>
 <%@page import="modelo.dao.MultaDao"%>
 <%@page import="java.util.ArrayList"%>
@@ -29,6 +30,14 @@
             mdao = new MultaDao();
         %>
 
+        <div class="row text-center col-lg-2 col-lg-offset-5">
+            <%                UsuarioDao uDao = new UsuarioDao();
+                int multa = uDao.validarMultas();
+                if (multa <= 2) {
+                    out.print("Usted tiene multas pendientes");
+                }
+            %>
+        </div>
         <div class="row col-md-6 col-lg-offset-4 col-lg-4">
             <form action="ControladorMulta" method="post">
                 <h3> Favor Ingresar el numero del Prestamo </h3>

@@ -27,19 +27,21 @@
 
         %>
         <div class="row text-center col-lg-2 col-lg-offset-5">
-            <%                UsuarioDao uDao = new UsuarioDao();
-                int multas = uDao.validarMultas();
-                if (multas <= 2) {
+            <%                
+                int multas = Integer.parseInt(request.getParameter("salida"));
+                if (multas == 1) {                    
                     out.print("Usted tiene multas pendientes");
+                }else{
+                    
                 }
             %>
         </div>
-            <div class="row text-center col-lg-2 col-lg-offset-5"><br>
-                <a href="prestamo.jsp" class="btn-success form-control">Realizar prestamo</a><br>
-                <a href="devolucion.jsp " class="btn-success form-control">Devolver libro</a><br>
-                <a href="Multas.jsp " class="btn-success form-control">Multas</a><br>
-            </div>
-            <%            }
-            %>
+        <div class="row text-center col-lg-2 col-lg-offset-5"><br>
+            <a href="prestamo.jsp" class="btn-success form-control">Realizar prestamo</a><br>
+            <a href="devolucion.jsp " class="btn-success form-control">Devolver libro</a><br>
+            <a href="Multas.jsp " class="btn-success form-control">Multas</a><br>
+        </div>
+        <%            }
+        %>
     </body>
 </html>

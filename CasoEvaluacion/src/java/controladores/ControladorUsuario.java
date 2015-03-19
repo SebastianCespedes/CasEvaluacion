@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import modelo.dao.MultaDao;
 import modelo.dao.UsuarioDao;
 import modelo.dto.UsuarioDto;
 
@@ -41,7 +42,10 @@ public class ControladorUsuario extends HttpServlet {
             uDto = uDao.obtenerUsuario(Integer.parseInt(request.getParameter("documento")));
             HttpSession sesion = request.getSession(true);
             sesion.setAttribute("logueado", uDto);
-            response.sendRedirect("acciones.jsp");
+
+            MultaDao mDao = new MultaDao();
+            int salida = mDao.validarMoroso(uDto.getIdUsuario());
+            response.sendRedirect("acciones.jsp?salida=" + salida);
         }
     }
 

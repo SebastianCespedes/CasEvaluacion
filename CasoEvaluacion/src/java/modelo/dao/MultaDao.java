@@ -21,17 +21,17 @@ import utilidades.Conexion;
  * @author kmilogil
  */
 public class MultaDao {
-    
+
     private Connection cnn = null;
     private ResultSet rs = null;
     private PreparedStatement pstm = null;
     private String mensajes = "";
     private int registros = 0;
-    
+
     public MultaDao() {
         cnn = Conexion.getInstance();
     }
-    
+
     public MultaDto listarUno(int prestamo) {
         MultaDto mudto = new MultaDto();
         try {
@@ -55,7 +55,7 @@ public class MultaDao {
         }
         return mudto;
     }
-    
+
     public List<MultaDto> listarTodos(int idUsuario) {
         ArrayList<MultaDto> multas = new ArrayList();
         try {
@@ -81,9 +81,9 @@ public class MultaDao {
         }
         return multas;
     }
-    
+
     public String pagarMulta(int prestamo) {
-        
+
         CallableStatement cstm;
         try {
             cstm = cnn.prepareCall("{call sp_pagarMulta(?, ?) }");
@@ -96,11 +96,28 @@ public class MultaDao {
             } else {
                 mensajes = "Debe pagar: " + total;
             }
-            
+
         } catch (SQLException ex) {
             mensajes = "Error: " + ex.getMessage();
         }
-        
+
         return mensajes;
+    }
+
+    public int validarMoroso(int idUsuario) {
+        int total = 0;
+        CallableStatement cstm;
+        try {
+            cstm = cnn.prepareCall("{call sp_validarMoroso(?, ?) }");
+            cstm.setInt(1, idUsuario);
+            cstm.registerOutParameter(2, Types.INTEGER);
+            cstm.execute();
+            total = cstm.getInt(2);
+
+        } catch (SQLException ex) {
+            mensajes = "Error: " + ex.getMessage();
+        }
+
+        return total;
     }
 }
